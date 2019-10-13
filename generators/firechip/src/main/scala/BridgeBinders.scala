@@ -18,6 +18,7 @@ import midas.models.{FASEDBridge, AXI4EdgeSummary, CompleteConfig}
 import firesim.bridges._
 import firesim.configs.MemModelKey
 import firesim.util.RegisterBridgeBinder
+import tracegen.HasTraceGenTilesModuleImp
 
 class WithTiedOffDebug extends RegisterBridgeBinder({ case target: HasPeripheryDebugModuleImp =>
   target.debug.clockeddmi.foreach({ cdmi =>
@@ -64,6 +65,11 @@ class WithTracerVBridge extends RegisterBridgeBinder({
   case target: HasTraceIOImp => TracerVBridge(target.traceIO)(target.p)
 })
 
+class WithTraceGenBridge extends RegisterBridgeBinder({
+  case target: HasTraceGenTilesModuleImp =>
+    Seq(GroundTestBridge(target.success)(target.p))
+})
+
 // Shorthand to register all of the provided bridges above
 class WithDefaultFireSimBridges extends Config(
   new WithTiedOffDebug ++
@@ -72,5 +78,6 @@ class WithDefaultFireSimBridges extends Config(
   new WithUARTBridge ++
   new WithBlockDeviceBridge ++
   new WithFASEDBridge ++
-  new WithTracerVBridge
+  new WithTracerVBridge ++
+  new WithTraceGenBridge
 )
