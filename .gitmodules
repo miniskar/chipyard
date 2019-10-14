@@ -1,6 +1,7 @@
 [submodule "rocket-chip"]
 	path = generators/rocket-chip
 	url = https://github.com/miniskar/rocket-chip.git
+    branch = newb
 [submodule "testchipip"]
 	path = generators/testchipip
 	url = https://github.com/ucb-bar/testchipip.git
