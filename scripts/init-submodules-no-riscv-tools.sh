@@ -38,6 +38,12 @@ git config submodule.sims/firesim.update none
 git config submodule.vlsi/hammer-cadence-plugins.update none
 git config submodule.vlsi/hammer-synopsys-plugins.update none
 git config submodule.vlsi/hammer-mentor-plugins.update none
+for i in "./generators/rocket-chip/torture/.gitmodules" ; do 
+sed -i -e 's/git:\/\//https:\/\//g' $i; find . -name config -type f -exec sed -i -e 's/git:\/\//https:\/\//g' {} \;
+cd `dirname $i`;
+git submodule sync ; 
+cd - ;
+done 
 git submodule update --init --recursive #--jobs 8
 # Un-ignore toolchain submodules
 for name in toolchains/*/*/ ; do
